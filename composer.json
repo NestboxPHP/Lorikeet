@@ -1,0 +1,17 @@
+{
+    "name": "nestboxphp/lorikeet",
+    "description": "Image upload processing and index management",
+    "type": "library",
+    "require": {
+        "nestboxphp/nestbox": "^0.0.3"
+    },
+    "require-dev": {
+        "nestboxphp/nestbox": "^0.0.3"
+    },
+    "license": "AGPL-3.0",
+    "autoload": {
+        "psr-4": {
+            "NestboxPHP\\Lorikeet\\": "src/"
+        }
+    }
+}
