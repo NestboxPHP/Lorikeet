@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace NestboxPHP\Lorikeet;
 
-use NestboxPHP\Nestbox\Nestbox;
+use NestboxPHP\Nestbox;
 
 class Lorikeet extends Nestbox
 {
-    final protected const string PACKAGE_NAME = 'lorikeet';
+    final protected const PACKAGE_NAME = 'lorikeet';
+
     // settings variables
     public string $lorikeetImageSaveDirectory = ".";
     public string $lorikeetImageThumbnailDirectory = ".";
