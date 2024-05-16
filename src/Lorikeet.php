@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NestboxPHP\Lorikeet;
 
-use NestboxPHP\Nestbox;
+use NestboxPHP\Nestbox\Nestbox;
 
 class Lorikeet extends Nestbox
 {
@@ -31,8 +31,8 @@ class Lorikeet extends Nestbox
                     `image_id` VARCHAR( 64 ) NOT NULL ,
                     `image_title` VARCHAR( 128 ) NOT NULL ,
                     `image_caption` VARCHAR( 256 ) NULL ,
-                    `saved` NOT NULL DEFAULT CURRENT TIMESTAMP ,
-                    `edited` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT TIMESTAMP ,
+                    `saved` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+                    `edited` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
                     `tags` MEDIUMTEXT NOT NULL ,
                     PRIMARY KEY ( `image_id` )
                 ) ENGINE = InnoDB DEFAULT CHARSET=UTF8MB4 COLLATE=utf8mb4_general_ci;";
