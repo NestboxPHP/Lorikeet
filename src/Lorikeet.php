@@ -157,4 +157,27 @@ class Lorikeet extends Nestbox
     {
         return;
     }
+
+
+
+    /**
+     * Settings
+     *  ____       _   _   _
+     * / ___|  ___| |_| |_(_)_ __   __ _ ___
+     * \___ \ / _ \ __| __| | '_ \ / _` / __|
+     *  ___) |  __/ |_| |_| | | | | (_| \__ \
+     * |____/ \___|\__|\__|_|_| |_|\__, |___/
+     *                             |___/
+     */
+
+
+    public function load_settings(string $package = null): array
+    {
+        return parent::load_settings(Lorikeet::PACKAGE_NAME);
+    }
+
+    public function save_settings(string $package = null): int|bool
+    {
+        return parent::save_settings(Lorikeet::PACKAGE_NAME);
+    }
 }
