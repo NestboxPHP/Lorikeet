@@ -12,9 +12,9 @@ class Lorikeet extends Nestbox
     final public const PACKAGE_NAME = 'lorikeet';
     public const LORIKEET_IMAGE_TABLE = 'lorikeet_images';
     public const LORIKEET_TAG_TABLE = 'lorikeet_tags';
+    public const LORIKEET_IMAGE_DIRECTORY = Nestbox::NESTBOX_DIRECTORY . "/lorikeet";
 
     // settings variables
-    public string $lorikeetImageSaveDirectory = "../lorikeet";
     public int $lorikeetMaxWidth = 0;
     public int $lorikeetMaxHeight = 0;
     public int $lorikeetThumbnailMaxWidth = 250;
@@ -58,35 +58,9 @@ class Lorikeet extends Nestbox
      */
     public function get_save_directory(): string
     {
-        $saveDirectory = $_SERVER["DOCUMENT_ROOT"] ."/$this->lorikeetImageSaveDirectory";
-        $saveDirectory = preg_replace('#[/\\\\]+#', DIRECTORY_SEPARATOR, $saveDirectory);
-        return trim($saveDirectory, DIRECTORY_SEPARATOR);
+        return $this->generate_document_root_relative_path(path: static::LORIKEET_IMAGE_DIRECTORY);
     }
 
-    /**
-     * Checks if the save directory exists.
-     *
-     * @return bool
-     */
-    public function save_directory_exists(): bool
-    {
-        return file_exists($this->get_save_directory());
-    }
-
-    /**
-     * Creates the save directory with read and write permissions (no execute).
-     *
-     * @param string|null $fullPath
-     * @return bool
-     * @throws LorikeetException
-     */
-    public function create_save_directory(string $fullPath = null): bool
-    {
-        $fullPath = ($fullPath) ?: $this->get_save_directory();
-        if (!mkdir(directory: $fullPath, permissions: 0666, recursive: true))
-            throw new LorikeetException("Failed to create lorikeet save directory.");
-        return true;
-    }
 
     public function change_save_directory(string $newDirectory): bool
     {
@@ -209,8 +183,8 @@ class Lorikeet extends Nestbox
         imagecopyresized($thumbnailImage, $uploadedImage, 0, 0, 0, 0, $thumbnailWidth, $thumbnailHeight, $imageSize[0], $imageSize[1]);
 
         // create save paths
-        if (!$this->save_directory_exists()) $this->create_save_directory();
         $saveDirectory = $this->get_save_directory();
+        $this->create_document_root_relative_directory($saveDirectory, 0666);
         $outputImageFullPath = $saveDirectory . DIRECTORY_SEPARATOR . "$fileHash.webp";
         $thumbnailImageFullPath = $saveDirectory . DIRECTORY_SEPARATOR . "{$fileHash}_thumb.webp";
 
