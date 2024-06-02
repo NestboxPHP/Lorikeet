@@ -173,7 +173,7 @@ class Lorikeet extends Nestbox
             throw new LorikeetException("Couldn't create true color image.");
         imagecolortransparent($outputImage, imagecolorallocate($outputImage, 0, 0, 0));
 
-        $thumbnailImage = imagecreatetruecolor($outputWidth, $outputHeight);
+        $thumbnailImage = imagecreatetruecolor($thumbnailWidth, $thumbnailHeight);
         if (!$thumbnailImage)
             throw new LorikeetException("Couldn't create true color image.");
         imagecolortransparent($thumbnailImage, imagecolorallocate($outputImage, 0, 0, 0));
@@ -325,8 +325,28 @@ class Lorikeet extends Nestbox
         return [];
     }
 
+    /**
+     * Renders an image to the browser
+     *
+     * @param string $id
+     * @param bool $thumbnail false
+     * @return void
+     */
     public function display_image(string $id, bool $thumbnail = false): void
     {
-        $image = $this->get_image();
+        if (!$image = $this->get_image($id)) return;
+
+        $search = implode(
+            separator: DIRECTORY_SEPARATOR,
+            array: [
+                $this->get_save_directory(),
+                ($thumbnail) ? "{$id}_thumb.*" : "$id.*"
+            ]
+        );
+
+        if (!$fullPath = (glob($search)[0] ?? false)) return;
+
+        header(header: "Content-Type: " . mime_content_type($fullPath));
+        echo file_get_contents($fullPath);
     }
 }
